@@ -1,4 +1,4 @@
-# SnakeGame-in-angularjs
+# Snake Game in angularjs
 
 * html & css
 * Javascript (angularjs)
