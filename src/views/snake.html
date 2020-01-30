@@ -1,0 +1,20 @@
+<div class="snakeContainer" class="row">
+
+    <div>
+        <button ng-click="startGame()">Start Game</button>
+        <h2>
+            Score: {{score}}
+        </h2>
+    </div>
+
+    <div class="board">
+        <div class="snake" ng-repeat="snake in getSnakLength() track by $index" 
+                           ng-style="{'left':getXmove($index),'top':getYmove($index)}">
+        </div>
+
+        <div class="forage" ng-style="{'left':getforageX($index),'top':getforageY($index)}">
+
+        </div>
+    </div>
+
+</div>

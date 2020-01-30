@@ -1,0 +1,35 @@
+
+body {
+    color: #595241;
+    font-family: Verdana;
+}
+
+.container {
+    min-width: 600px;
+    margin: 10px;
+}
+
+.board{
+    height: 500px;
+    width: 500px;
+    background-color: #B8AE9C;
+    position:relative; 
+}
+
+.snake{
+    height: 20px;
+    width: 20px;
+    background-color: blue;
+    border-radius:50%;
+    display:inline-block;
+    position: absolute;
+}
+
+.forage{
+    height: 20px;
+    width: 20px;
+    background-color: red;
+    border-radius:50%;
+    display:inline-block;
+    position: absolute;
+}
