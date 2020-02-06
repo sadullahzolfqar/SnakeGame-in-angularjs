@@ -1,4 +1,4 @@
-app.controller('SnakeController',function($scope,$timeout, $window){
+app.controller('SnakeController',function($scope,$timeout, $window,$selfPlay){
 
     var directions={
         left:39,
@@ -24,13 +24,15 @@ app.controller('SnakeController',function($scope,$timeout, $window){
         speed=200;
         initSnake();
         generateForage();
+        
+        //selfPlaying();
         snakeMove();
     }
 
 
     function initSnake(){
         snake={
-            Nodes:[{X:2,Y:0},{X:1,Y:0},{X:0,Y:0}],
+            Nodes:[{X:0,Y:0},{X:1,Y:0},{X:2,Y:0}],
             Direction:directions.left,
             NextDirection:directions.left
         };
@@ -56,7 +58,10 @@ app.controller('SnakeController',function($scope,$timeout, $window){
     function eatForage(){
         var node=angular.copy(snake.Nodes[snake.Nodes.length-1]);
         snake.Nodes.push(node);
-        speed-=10;
+        
+        if(speed>20){
+            speed-=10;
+        }
         $scope.score+=10;
         generateForage();
     }
@@ -87,6 +92,8 @@ app.controller('SnakeController',function($scope,$timeout, $window){
         alert("Game Over Your Score is "+$scope.score);
     }
 
+    
+
     function snakeMove(){
         let headNode=newNode();
 
@@ -100,14 +107,13 @@ app.controller('SnakeController',function($scope,$timeout, $window){
             return;
         }
 
-        snake.Nodes.unshift(headNode);
+        snake.Nodes.push(headNode);
         
         if(isForageBody(headNode)){
-            console.log("geldim")
             eatForage();
         }
 
-        snake.Nodes.pop();
+        snake.Nodes.shift();
 
         snake.Direction = snake.NextDirection;
    
@@ -115,7 +121,7 @@ app.controller('SnakeController',function($scope,$timeout, $window){
     }
 
     function newNode(){
-        let node = angular.copy(snake.Nodes[0]);
+        let node = angular.copy(snake.Nodes[snake.Nodes.length-1]);
         if(snake.NextDirection===directions.left){
             node.X++;
         }
@@ -131,7 +137,7 @@ app.controller('SnakeController',function($scope,$timeout, $window){
         return node;
     }
 
-    $scope.getXmove=function(index){
+    $scope.getXmove = function(index){
         
         return snake.Nodes[index].X*20 +'px'
     }
@@ -147,8 +153,6 @@ app.controller('SnakeController',function($scope,$timeout, $window){
 
     $window.addEventListener("keydown", function (e) 
     {
-        console.log(snake.NextDirection)
-        console.log(snake.Direction)
         var keyCode = e.keyCode;
         if (keyCode === directions.left && snake.Direction !== directions.right) {
             snake.NextDirection = directions.left;
@@ -161,7 +165,43 @@ app.controller('SnakeController',function($scope,$timeout, $window){
         } else {
             
         }
-
+        console.log(keyCode);
     });
+
+    function setSelfPlayingObject(){
+        $selfPlay.setSnake(snake.Nodes[snake.Nodes.length-1],snake.Direction);
+        $selfPlay.setForage(forage);
+    }
+
+    $scope.startSelfPlaying = function(){
+        if(timer!=null){
+            $timeout.cancel(timer);
+        }
+        $scope.score=0;
+        speed=200;
+        initSnake();
+        generateForage();
+        
+        selfPlaying();
+        snakeMove();
+    };
+
+    function selfPlaying()
+    {
+        setSelfPlayingObject();
+        var keyCode = $selfPlay.generateDirection();
+        if (keyCode === directions.left && snake.Direction !== directions.right) {
+            snake.NextDirection = directions.left;
+        } else if (keyCode === directions.right && snake.Direction !== directions.left) {
+            snake.NextDirection = directions.right;
+        } else if (keyCode === directions.up && snake.Direction !== directions.down) {
+            snake.NextDirection = directions.up;
+        } else if (keyCode === directions.down && snake.Direction !== directions.up) {
+            snake.NextDirection = directions.down;
+        } else {
+            
+        }
+        $timeout(selfPlaying,10);
+    }
 
 });
