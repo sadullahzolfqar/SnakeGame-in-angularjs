@@ -44,7 +44,14 @@ gulp.task('html', function() {
         }));
 });
 
-gulp.task('build', ['libraries-js', 'main-js', 'html','css']);
+gulp.task('json', function() {
+    return gulp.src('./src/json/**/*.json')
+        .pipe(browserSync.reload({
+            stream: true
+        }));
+});
+
+gulp.task('build', ['libraries-js', 'main-js', 'html','css','json']);
 
 gulp.task('browser-sync', function() {
     browserSync.init({
@@ -60,6 +67,7 @@ gulp.task('start',['build', 'browser-sync'],async function(done) {
     gulp.watch(['./src/css/**/*.css'], ['css']);
     gulp.watch(['./src/js/**/*.js'], ['main-js']);
     gulp.watch(['./src/views/**/*.html'], ['html']);
+    gulp.watch(['./src/json/**/*.json'], ['json']);
 });
 
 
