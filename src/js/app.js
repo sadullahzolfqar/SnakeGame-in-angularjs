@@ -4,7 +4,7 @@ app.config(['$routeProvider', function ($routeProvider) {
     $routeProvider
         .when('/game', {
             templateUrl: 'snake.html',
-            controller: 'SnakeController'
+            controller: 'GameController'
         })
         .otherwise({redirectTo: '/game'});
 }]);
