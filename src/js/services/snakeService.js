@@ -1,6 +1,6 @@
 app.factory('$snake',function(){
 
-    var service = {
+    const service = {
         snake:null,
         NodeSize:0,
     };
