@@ -1,9 +1,9 @@
 app.factory('$selfPlay',function($http){
     
-    var service = {
+    const service = {
         
     };
-    var directions = {
+    const directions = {
         left:39,
         right:37,
         up:38,
@@ -96,6 +96,15 @@ app.factory('$selfPlay',function($http){
     service.SaveTrainData = function(){
         var json = JSON.stringify(trainingData);
         
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST','trainingData.json',true);
+
+        xhr.onreadystatechange = function() {
+            if(xhr.readyState ===4 && xhr.status==200){
+                
+            }
+        }
+
         console.log(json)
     };
 

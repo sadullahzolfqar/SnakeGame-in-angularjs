@@ -1,13 +1,15 @@
 app.factory('$forage',function(){
 
-    var service = {
+    const boardSize = 25;
+    
+    const service = {
         forage:{
             X:Math.floor(Math.random()*boardSize),
             Y:Math.floor(Math.random()*boardSize)
         },
     };
 
-    var boardSize = 25;
+    
    
     service.init = function (){
         service.forage={
